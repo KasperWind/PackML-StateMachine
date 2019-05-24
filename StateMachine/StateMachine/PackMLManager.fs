@@ -2,3 +2,4 @@
 
 open PackML
 
+type Childs<'a> = PackMLModel<'a> list
