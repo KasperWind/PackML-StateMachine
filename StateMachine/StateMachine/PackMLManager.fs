@@ -2,7 +2,11 @@
 
 open PackML
 
-type Container<'a,'b when 'b : comparison> = Map< 'b, PackMLModel<'a> >
+type Container<'a,'b when 'a : comparison> = Map< 'a, PackMLModel<'b> >
+
+module Container =
+    let ofList list : Container<'a, 'b>  =
+        list |> Map.ofList
 
 let runSingle selector ( container :  Container<'a, 'b> ) : Container<'a, 'b> =
     container |> Map.tryFind selector

@@ -48,3 +48,6 @@ let command fsm =
     match fsm.Commands |> Map.tryFind fsm.CurrentState with
     | None -> fsm
     | Some x -> {fsm with Context = x (fsm.Context)}
+
+let getCurrentState fsm = fsm.CurrentState
+let getContext fsm = fsm.Context

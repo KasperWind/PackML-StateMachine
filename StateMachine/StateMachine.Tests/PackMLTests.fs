@@ -23,9 +23,6 @@ let rec commandFlow list fsm =
 let ``Goes to starting from aborting`` = [ stateChange; clear; stateChange; reset; stateChange; start ]
 let ``Goes to execute from aborting`` = ``Goes to starting from aborting`` @ [ stateChange ]
 
-let getCurrentState fsm = fsm.CurrentState
-let getContext fsm = fsm.Context
-
 let emptyPackMLContext = {TransitionState = FirstRun; ContextData = ""}
 
 [<Fact>]

@@ -96,3 +96,4 @@ let unSuspend<'a>  : CommandModel<'a> = eventHandler UnSuspend
 let run<'a> (stateModel: PackMLModel<'a>) : PackMLModel<'a> = stateModel |> FSM.command |> checkFirstRun
 let isAbortableState state = abortableStates |> List.contains state
 let isStopableState state = stopableStates |> List.contains state
+let getContextData context = context.ContextData
