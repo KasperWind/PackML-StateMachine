@@ -2,4 +2,4 @@
 
 open PackML
 
-type Childs<'a> = PackMLModel<'a> list
+type Container<'a> = Map< string, PackMLModel<'a> >
