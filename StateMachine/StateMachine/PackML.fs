@@ -22,17 +22,17 @@ let abortableStates = [
     Resetting; Idle; Starting; Execute; 
     Suspending; Suspended; Unsuspending; 
     Holding; Held; Unholding; 
-    Completing; Complete]
+    Completing; Complete ]
 
 let stopableStates = [
     Resetting; Idle; Starting; Execute; 
     Suspending; Suspended; Unsuspending; 
     Holding; Held; Unholding; 
-    Completing; Complete]
+    Completing; Complete ]
     
 type TransitionState = | FirstRun | Running | IsDone
-type PackMLContext<'a> = {TransitionState : TransitionState; ContextData : 'a}
-type PackMLModel<'a> = T<States,Events, PackMLContext<'a>>
+type PackMLContext<'a> = { TransitionState : TransitionState; ContextData : 'a }
+type PackMLModel<'a> = T< States, Events, PackMLContext<'a> >
 type CommandModel<'a> = PackMLModel<'a> -> PackMLModel<'a>
 
 let stateModel<'a> (context:PackMLContext<'a>) : PackMLModel<'a> =
@@ -61,7 +61,7 @@ let stateModel<'a> (context:PackMLContext<'a>) : PackMLModel<'a> =
 
 //PackML helper functions
 module PackMLContext =
-    let setTransitionState<'a> state (context : PackMLContext<'a>) = {context with TransitionState = state }
+    let setTransitionState<'a> state ( context : PackMLContext<'a> ) = { context with TransitionState = state }
     let setFirstRun<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState FirstRun
     let setRunning<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState Running
     let setIsDone<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState IsDone
