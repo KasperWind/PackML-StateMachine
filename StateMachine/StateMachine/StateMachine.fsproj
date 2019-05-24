@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Include="FSM.fs" />
     <Compile Include="PackML.fs" />
+    <Compile Include="PackMLManager.fs" />
   </ItemGroup>
 
   <ItemGroup />
