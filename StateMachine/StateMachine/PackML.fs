@@ -32,7 +32,7 @@ let stopableStates = [
     
 type TransitionState = | FirstRun | Running | IsDone
 type PackMLContext<'a> = {TransitionState : TransitionState; ContextData : 'a}
-type PackMLModel<'a> = T<States,Events, PackMLContext<'a>>
+type PackMLModel<'a> = FSM<States,Events, PackMLContext<'a>>
 type CommandModel<'a> = PackMLModel<'a> -> PackMLModel<'a>
 
 let stateModel<'a> (context:PackMLContext<'a>) : PackMLModel<'a> =

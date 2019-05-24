@@ -1,5 +1,6 @@
 module StateMachine.FSM
-type T<'TState, 'TEvent, 'TContext when 'TEvent : comparison and 'TState : comparison> = {
+
+type FSM<'TState, 'TEvent, 'TContext when 'TEvent : comparison and 'TState : comparison> = {
     Transitions : Map<'TState, Map<'TEvent, 'TState>>
     CurrentState : 'TState
     InitialState : 'TState
