@@ -10,6 +10,7 @@
   <ItemGroup>
     <Compile Include="PackMLTests.fs" />
     <Compile Include="FSM_Tests.fs" />
+    <Compile Include="PackMLMangerTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
