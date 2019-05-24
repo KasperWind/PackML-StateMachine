@@ -65,6 +65,7 @@ module PackMLContext =
     let setFirstRun<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState FirstRun
     let setRunning<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState Running
     let setIsDone<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState IsDone
+
 module PackMLModel =
     let setTransitionState<'a> state (fsm : PackMLModel<'a>) = {fsm with Context = fsm.Context |> PackMLContext.setTransitionState state}
     let setFirstRun<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState FirstRun
