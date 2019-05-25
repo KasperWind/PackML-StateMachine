@@ -2,22 +2,19 @@
 
 open PackML
 
-//TODO: as node tree?
 type PackMLManager<'a> = 
     | NoChilds of node: PackMLModel<'a>
     | Childs of node: PackMLModel<'a> * nodes: PackMLManager<'a> list
 
-module NodeTree =
-    let map (f:PackMLModel<'a> -> PackMLModel<'b>) (x:PackMLManager<'a>) : PackMLManager<'b> =
-        let rec innerF nodetree =
-            match nodetree with
-            | NoChilds node -> f node |> NoChilds
-            | Childs (node, nodes) ->
-                let n = f node
-                let nt = nodes |> List.map innerF
-                (n, nt) |> Childs
-        x |> innerF
-
+module PackMLManager =
+    let rec map ( f: PackMLModel<'a> -> PackMLModel<'b> ) ( x: PackMLManager<'a> ) : PackMLManager<'b> =
+        match x with
+        | NoChilds me -> f me |> NoChilds
+        | Childs (me, childs) ->
+            let n = f me
+            let nt = childs |> List.map (map f)
+            (n, nt) |> Childs
+        
 type Container<'a,'b when 'a : comparison> = Map< 'a, PackMLModel<'b> >
 
 module Container =
