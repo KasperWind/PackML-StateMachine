@@ -14,7 +14,7 @@ module PackMLManager =
             let n = f me
             let nt = childs |> List.map (map f)
             (n, nt) |> Childs
-        
+(*        
 type Container<'a,'b when 'a : comparison> = Map< 'a, PackMLModel<'b> >
 
 module Container =
@@ -33,3 +33,4 @@ let runAll (container : Container<'a, 'b>) : Container<'a, 'b> =
 // f: b -> c x: Container<a, b>
 let map f x =
     ()
+    *)

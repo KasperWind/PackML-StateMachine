@@ -72,7 +72,8 @@ module PackMLModel =
     let setFirstRun<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState FirstRun
     let setRunning<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState Running
     let setIsDone<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState IsDone
-
+    let defaultModel<'a> = PackMLContext.defaultContext >> stateModel<'a>
+    
 let eventHandler e fsm =
     let checkEqual newFsm =
         if fsm.CurrentState = newFsm.CurrentState then fsm
@@ -83,8 +84,6 @@ let checkFirstRun fsm =
     match fsm.Context.TransitionState with
     | FirstRun -> fsm |> PackMLModel.setRunning
     | _ -> fsm
-
-let defaultStateModel<'a> = PackMLContext.defaultContext >> stateModel<'a>
 
 let stateChange<'a> : CommandModel<'a> = eventHandler StateChange
 let abort<'a>  : CommandModel<'a> = eventHandler Abort

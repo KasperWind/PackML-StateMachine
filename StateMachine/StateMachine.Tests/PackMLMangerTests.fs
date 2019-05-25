@@ -7,14 +7,11 @@ open StateMachine.FSM
 open StateMachine.PackML
 open StateMachine.PackMLManager
 
-type Modules = | Module1 | Module2 | Module3
+let expectedAfterRun = PackMLContext.defaultContext "has been run..."
+let expectedRun _ = expectedAfterRun
+let node = "single parent" |> PackMLModel.defaultModel |> registerCommand Aborting expectedRun |> NoChilds
+    
 
-let modules = 
-    [(Module1, {TransitionState = FirstRun; ContextData = ""}); 
-    (Module2, {TransitionState = FirstRun; ContextData = ""}); 
-    (Module3, {TransitionState = FirstRun; ContextData = ""});]
-    |> List.map (fun (fst,snd) -> fst, snd |> stateModel)
-    |> Container.ofList
 
 [<Fact>]
 let ``Should run all PackMLModels in container`` () =
@@ -29,3 +26,15 @@ let ``Should run all PackMLModels in container`` () =
     |> List.map (snd >> getContext >> getContextData)
     |> should matchList expectedList
 
+
+
+    (*
+    type Modules = | Module1 | Module2 | Module3
+    
+    let modules = 
+        [(Module1, {TransitionState = FirstRun; ContextData = ""}); 
+        (Module2, {TransitionState = FirstRun; ContextData = ""}); 
+        (Module3, {TransitionState = FirstRun; ContextData = ""});]
+        |> List.map (fun (fst,snd) -> fst, snd |> stateModel)
+        |> Container.ofList
+        *)
