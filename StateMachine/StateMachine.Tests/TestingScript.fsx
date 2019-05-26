@@ -35,4 +35,4 @@ let nodes = (
         ("Context" :> obj |> PackMLModel.defaultModel "1.7" |> registerCommand Aborting aborting) |> NoChilds]) |> Childs
 
 nodes |> map run |> ignore
-nodes |> map stateChange
+nodes |> printStates |> map stateChange |> printStates |> ignore

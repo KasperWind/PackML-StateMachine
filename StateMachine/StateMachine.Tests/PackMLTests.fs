@@ -23,11 +23,11 @@ let rec commandFlow list fsm =
 let ``Goes to starting from aborting`` = [ stateChange; clear; stateChange; reset; stateChange; start ]
 let ``Goes to execute from aborting`` = ``Goes to starting from aborting`` @ [ stateChange ]
 
-let emptyPackMLContext = {TransitionState = FirstRun; ContextData = ""}
+let emptyPackMLContext = {Name = "Test"; TransitionState = FirstRun; ContextData = ""}
 
 [<Fact>]
 let ``Should be in aborting state and with inline data context`` () =
-    let expectedContext = {TransitionState = FirstRun; ContextData = "Expected Context"}
+    let expectedContext = {Name = "Test"; TransitionState = FirstRun; ContextData = "Expected Context"}
     stateModel expectedContext |> getContext
     |> should equal expectedContext
 
@@ -69,13 +69,13 @@ let ``Should go to execute and stop`` () =
 
 [<Fact>]
 let ``Should execute command from aborting`` () =
-    let expectedContext = {TransitionState = Running; ContextData = "Expected Context"}
+    let expectedContext = {Name = "Test"; TransitionState = Running; ContextData = "Expected Context"}
     stateModel emptyPackMLContext |> registerCommand Aborting (fun x -> expectedContext)
     |> run |> getContext |> should equal expectedContext
 
 [<Fact>]
 let ``Should execute command from execute`` () =
-    let expectedContext = {TransitionState = Running; ContextData = "Expected Context"}
+    let expectedContext = {Name = "Test"; TransitionState = Running; ContextData = "Expected Context"}
     stateModel emptyPackMLContext |> registerCommand Execute (fun x -> expectedContext)
     |> commandFlow ``Goes to execute from aborting``
     |> run |> getContext |> should equal expectedContext
