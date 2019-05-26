@@ -14,14 +14,14 @@ let rec map ( f: PackMLModel<obj> -> PackMLModel<obj> ) ( x: PackMLManager ) : P
         let nt = childs |> List.map (map f)
         (n, nt) |> Childs
         
-let rec iter ( f: PackMLModel<obj> -> unit ) ( x: PackMLManager) : Unit =
+let rec iter ( f: PackMLModel<obj> -> unit ) ( x: PackMLManager) : unit =
     match x with
     | NoChilds me -> f me 
     | Childs (me, childs) ->
         f me
         childs |> List.iter (iter f)
 
-let printStates x =
-    let printState ( model: PackMLModel<obj> ) =
-        let name = PackMLModel. model.Context.Name
-    x |> iter |> 
+let printStates manager =
+    let printState ( model: PackMLModel<obj> ) : unit =
+        (printfn "Statemodel: %s; Current state: %A" (PackMLModel.getName model) (model.CurrentState))
+    manager |> iter printState
