@@ -3,10 +3,10 @@
 open PackML
 
 type PackMLManager = 
-    | NoChilds of node: PackMLModel<obj>
-    | Childs of node: PackMLModel<obj> * nodes: PackMLManager list
+    | NoChilds of current: PackMLModel<obj>
+    | Childs of current: PackMLModel<obj> * childs: PackMLManager list
 
-let rec map ( f: PackMLModel<obj> -> PackMLModel<obj> ) ( x: PackMLManager ) : PackMLManager =
+let rec map f x =
     match x with
     | NoChilds me -> f me |> NoChilds
     | Childs (me, childs) ->
@@ -14,7 +14,7 @@ let rec map ( f: PackMLModel<obj> -> PackMLModel<obj> ) ( x: PackMLManager ) : P
         let nt = childs |> List.map (map f)
         (n, nt) |> Childs
         
-let rec iter ( f: PackMLModel<obj> -> unit ) ( x: PackMLManager) : unit =
+let rec iter f x =
     match x with
     | NoChilds me -> f me 
     | Childs (me, childs) ->
