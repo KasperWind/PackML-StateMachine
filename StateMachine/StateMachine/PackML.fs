@@ -31,7 +31,7 @@ let stopableStates = [
     Completing; Complete]
     
 type TransitionState = | FirstRun | Running | IsDone
-type PackMLContext<'a> = {TransitionState : TransitionState; ContextData : 'a}
+type PackMLContext<'a> = {Name: string; TransitionState : TransitionState; ContextData : 'a}
 type PackMLModel<'a> = FSM<States,Events, PackMLContext<'a>>
 type CommandModel<'a> = PackMLModel<'a> -> PackMLModel<'a>
 
@@ -65,14 +65,16 @@ module PackMLContext =
     let setFirstRun<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState FirstRun
     let setRunning<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState Running
     let setIsDone<'a> : PackMLContext<'a> -> PackMLContext<'a> = setTransitionState IsDone
-    let defaultContext data = {TransitionState = FirstRun; ContextData = data}
+    let defaultContext name data = {Name = name; TransitionState = FirstRun; ContextData = data}
+    let getContextData context = context.ContextData
+    let getName context = context.Name
 
 module PackMLModel =
     let setTransitionState<'a> state (fsm : PackMLModel<'a>) = {fsm with Context = fsm.Context |> PackMLContext.setTransitionState state}
     let setFirstRun<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState FirstRun
     let setRunning<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState Running
     let setIsDone<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState IsDone
-    let defaultModel<'a> = PackMLContext.defaultContext >> stateModel<'a>
+    let defaultModel<'a> name data = (PackMLContext.defaultContext name data) |> stateModel<'a>
     
 let eventHandler e fsm =
     let checkEqual newFsm =
@@ -98,4 +100,3 @@ let unSuspend<'a>  : CommandModel<'a> = eventHandler UnSuspend
 let run<'a> (stateModel: PackMLModel<'a>) : PackMLModel<'a> = stateModel |> FSM.command |> checkFirstRun
 let isAbortableState state = abortableStates |> List.contains state
 let isStopableState state = stopableStates |> List.contains state
-let getContextData context = context.ContextData
