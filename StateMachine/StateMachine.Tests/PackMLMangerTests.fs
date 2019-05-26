@@ -7,34 +7,30 @@ open StateMachine.FSM
 open StateMachine.PackML
 open StateMachine.PackMLManager
 
-let expectedAfterRun = PackMLContext.defaultContext "has been run..."
-let expectedRun _ = expectedAfterRun
-let node = "single parent" |> PackMLModel.defaultModel |> registerCommand Aborting expectedRun |> NoChilds
-    
+let aborting (context: PackMLContext<obj>) =
+    let x = PackMLContext.getContextData context :?> string
+    printfn "Aborting statemodel: %s with context: %s" (PackMLContext.getName context) x
+    context
 
-
-[<Fact>]
-let ``Should run all PackMLModels in container`` () =
-    let expectetedContext = "has been run"
-    let expectedList = List.init modules.Count (fun _ -> expectetedContext)
-    let command ctx = { ctx with ContextData = expectetedContext }
-    
-    modules 
-    |> Map.map (fun _ state -> state |> registerCommand Aborting command)
-    |> runAll
-    |> Map.toList
-    |> List.map (snd >> getContext >> getContextData)
-    |> should matchList expectedList
-
-
-
-    (*
-    type Modules = | Module1 | Module2 | Module3
-    
-    let modules = 
-        [(Module1, {TransitionState = FirstRun; ContextData = ""}); 
-        (Module2, {TransitionState = FirstRun; ContextData = ""}); 
-        (Module3, {TransitionState = FirstRun; ContextData = ""});]
-        |> List.map (fun (fst,snd) -> fst, snd |> stateModel)
-        |> Container.ofList
-        *)
+let node = "Context" :> obj |> PackMLModel.defaultModel "Single Parent" |> registerCommand Aborting aborting |> NoChilds
+let nodes = (
+    ("Context" :> obj |> PackMLModel.defaultModel "1" |> registerCommand Aborting aborting),
+    [(("Context" :> obj |> PackMLModel.defaultModel "1.1" |> registerCommand Aborting aborting), ( 
+        [("Context" :> obj |> PackMLModel.defaultModel "1.1.1" |> registerCommand Aborting aborting) |> NoChilds;
+        ("Context" :> obj |> PackMLModel.defaultModel "1.1.2" |> registerCommand Aborting aborting) |> NoChilds;
+        ("Context" :> obj |> PackMLModel.defaultModel "1.1.3" |> registerCommand Aborting aborting) |> NoChilds;
+        ("Context" :> obj |> PackMLModel.defaultModel "1.1.4" |> registerCommand Aborting aborting) |> NoChilds])) |> Childs;
+    ("Context" :> obj |> PackMLModel.defaultModel "1.2" |> registerCommand Aborting aborting) |> NoChilds;
+    ("Context" :> obj |> PackMLModel.defaultModel "1.3" |> registerCommand Aborting aborting) |> NoChilds;
+    ("Context" :> obj |> PackMLModel.defaultModel "1.4" |> registerCommand Aborting aborting) |> NoChilds;
+    ("Context" :> obj |> PackMLModel.defaultModel "1.5" |> registerCommand Aborting aborting) |> NoChilds;
+    (("Context" :> obj |> PackMLModel.defaultModel "1.6" |> registerCommand Aborting aborting), (
+        [("Context" :> obj |> PackMLModel.defaultModel "1.6.1" |> registerCommand Aborting aborting) |> NoChilds;
+        (("Context" :> obj |> PackMLModel.defaultModel "1.6.2" |> registerCommand Aborting aborting), (
+            [("Context" :> obj |> PackMLModel.defaultModel "1.6.2.1" |> registerCommand Aborting aborting) |> NoChilds;
+            ("Context" :> obj |> PackMLModel.defaultModel "1.6.2.2" |> registerCommand Aborting aborting) |> NoChilds;
+            ("Context" :> obj |> PackMLModel.defaultModel "1.6.2.3" |> registerCommand Aborting aborting) |> NoChilds;
+            ("Context" :> obj |> PackMLModel.defaultModel "1.6.2.4" |> registerCommand Aborting aborting) |> NoChilds])) |> Childs;
+        ("Context" :> obj |> PackMLModel.defaultModel "1.6.3" |> registerCommand Aborting aborting) |> NoChilds;
+        ("Context" :> obj |> PackMLModel.defaultModel "1.6.4" |> registerCommand Aborting aborting) |> NoChilds])) |> Childs;
+    ("Context" :> obj |> PackMLModel.defaultModel "1.7" |> registerCommand Aborting aborting) |> NoChilds]) |> Childs

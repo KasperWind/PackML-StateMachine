@@ -11,8 +11,11 @@
     <Compile Include="FSM_Tests.fs" />
     <Compile Include="PackMLTests.fs" />
     <Compile Include="PackMLMangerTests.fs" />
+    <None Include="TestingScript.fsx" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
+  <ItemGroup />
 
   <ItemGroup>
     <PackageReference Include="FsUnit.xUnit" Version="3.4.0" />
