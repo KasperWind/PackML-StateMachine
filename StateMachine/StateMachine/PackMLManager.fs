@@ -21,7 +21,9 @@ let rec iter ( f: PackMLModel<obj> -> unit ) ( x: PackMLManager) : unit =
         f me
         childs |> List.iter (iter f)
 
-let printStates manager =
-    let printState ( model: PackMLModel<obj> ) : unit =
+let printStates manager =    
+    let printState model =
         (printfn "Statemodel: %s; Current state: %A" (PackMLModel.getName model) (model.CurrentState))
     manager |> iter printState
+    manager
+
