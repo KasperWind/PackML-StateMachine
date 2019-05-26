@@ -74,6 +74,7 @@ module PackMLModel =
     let setFirstRun<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState FirstRun
     let setRunning<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState Running
     let setIsDone<'a> : PackMLModel<'a> -> PackMLModel<'a> = setTransitionState IsDone
+    let getName model = PackMLContext.getName model.Context
     let defaultModel<'a> name data = (PackMLContext.defaultContext name data) |> stateModel<'a>
     
 let eventHandler e fsm =
